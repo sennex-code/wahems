@@ -23,21 +23,25 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-COPY composer.json composer.lock ./
+# Copy Laravel application first
+COPY . .
 
+# Install PHP dependencies
 RUN composer install \
     --optimize-autoloader \
     --no-interaction \
     --no-dev \
-    --prefer-dist
+    --prefer-dist \
+    --no-scripts
 
-COPY package.json package-lock.json* ./
-
+# Install Node dependencies
 RUN npm install
 
-COPY . .
-
+# Build React/Inertia
 RUN npm run build
+
+# Run Laravel optimization
+RUN php artisan package:discover --ansi
 
 RUN php artisan config:cache \
     && php artisan route:cache \
