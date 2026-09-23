@@ -321,7 +321,6 @@ class FakeDataSeeder extends Seeder
                 'facility_code' => $facility?->code,
                 'user_id' => $audience->id,
                 'type' => $type,
-                'facility' => $facility?->facility_name,
                 'region' => $geoData['region'],
                 'province' => $geoData['province'],
                 'municipality' => $geoData['municipality'],
@@ -332,6 +331,10 @@ class FakeDataSeeder extends Seeder
                 'required_hours' => fake()->numberBetween(8, 40),
                 'is_registration_active' => fake()->boolean(80),
             ];
+
+            if (Schema::hasColumn('events', 'facility')) {
+                $data['facility'] = $facility?->facility_name;
+            }
 
             if (Schema::hasColumn('events', 'start_at') && Schema::hasColumn('events', 'end_at')) {
                 $data['start_at'] = $starts->format('Y-m-d');
