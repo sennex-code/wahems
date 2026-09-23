@@ -151,7 +151,7 @@ class FakeDataSeeder extends Seeder
                 'mobile_number' => '09' . fake()->numerify('#########'),
                 'cpd' => fake()->boolean(60),
                 'prc_license' => fake()->optional(0.7)->numerify(str_repeat('#', 7)),
-                'expiry_date' => fake()->optional(0.5)->dateTimeBetween('+1 month', '+3 years')->format('Y-m-d'),
+                'expiry_date' => fake()->optional(0.5)->dateTimeBetween('+1 month', '+3 years')?->format('Y-m-d'),
             ]));
         }
 
