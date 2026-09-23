@@ -105,9 +105,10 @@ class FakeDataSeeder extends Seeder
     {
         $users = collect();
 
-        $users->push(User::create([
-            'name' => 'Admin User',
+        $users->push(User::updateOrCreate([
             'email' => 'admin@example.com',
+        ], [
+            'name' => 'Admin User',
             'password' => 'password',
             'role' => 'Admin',
             'email_verified_at' => now(),
@@ -370,7 +371,7 @@ class FakeDataSeeder extends Seeder
                 ]);
 
                 if ($facilityIds !== []) {
-                    $cluster->facilities()->attach(fake()->randomElements($facilityIds, fake()->numberBetween(1, 2)));
+                    $cluster->facilities()->syncWithoutDetaching(fake()->randomElements($facilityIds, fake()->numberBetween(1, 2)));
                 }
             }
         }
@@ -500,7 +501,7 @@ class FakeDataSeeder extends Seeder
     private function attachFacilitatorsToEvents($events, $facilitators): void
     {
         foreach ($events as $event) {
-            $event->facilitators()->attach($facilitators->random(fake()->numberBetween(2, 4))->pluck('id'));
+            $event->facilitators()->syncWithoutDetaching($facilitators->random(fake()->numberBetween(2, 4))->pluck('id'));
         }
     }
 
