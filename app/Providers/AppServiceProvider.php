@@ -1,3 +1,7 @@
+<?php
+
+namespace App\Providers;
+
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
