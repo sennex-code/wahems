@@ -1,0 +1,31 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        if (! Schema::hasTable('surveys')) {
+            Schema::create('surveys', function (Blueprint $table) {
+                $table->id();
+                $table->timestamps();
+                $table->foreignId('event_id')->constrained()->cascadeOnDelete();
+                $table->string('title');
+            });
+        }
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('surveys');
+    }
+};
